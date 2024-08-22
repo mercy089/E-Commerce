@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Prata&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a.active hr{
+    display: block;
+}
+
+*{
+    font-family: OutFit;
+}
+
+.prata-regular {
+    font-family: "Prata", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+ 
+/* Apply a universal font style */
+* {
+    font-family: "Inconsolata", monospace;
+    font-optical-sizing: auto;
+    font-weight: 600; /* Set a default weight, can be changed */
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+  }
+  
+  /* Optional: Override specific elements with different weights or styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700; /* Example for headers */
+  }
+  
+  strong {
+    font-weight: 600; /* Example for bold text */
+  }
+  
+  em {
+    font-style: italic; /* Example for emphasized text */
+  }
+  
