@@ -3,17 +3,25 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
 import RelatedProducts from "../Components/RelatedProducts";
+import { toast } from "react-toastify";
 
 const Product = () => {
-  const { productId } = useParams(); // Call useParams as a function
-  const { products, currency } = useContext(ShopContext);
+  const { productId } = useParams();
+  const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
   const [isAdded, setIsAdded] = useState(false);
 
   const handleButtonClick = () => {
-    setIsAdded(!isAdded); // Toggle the state
+     if(!size){
+      toast.error('Select Product Size');
+      return
+    }
+
+
+    setIsAdded(!isAdded);
+    addToCart(productData._id, size, isAdded);
   };
 
   const fetchProductData = async () => {
@@ -93,6 +101,7 @@ const Product = () => {
           >
             {isAdded ? "REMOVE" : "ADD TO CART"}
           </button>
+
           <hr className="sm:w-4/5 mt-8" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original Product</p>
@@ -108,12 +117,28 @@ const Product = () => {
           <p className="border px-5 py-3 text-sm">Reviews (122)</p>
         </div>
         <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500">
-              <p>An e-commerce website is an online platform that facilitates the buying and selling of products or services over the internet. It serves as a virtual marketplace where businesses and individuals con showcase their products, interact with customers, and conduct transactions without the need for a physical presence. E-commerce websites have gained immense popularity due to their convenience, accessibility, and the global reach they offer</p>
-              <p>E-commerce websites typically display products or services along with defalled descriptions, images, prices, and any available variations (e.g., sizes, colors). Each product usually has its own dedicated page with relevant information</p>
+          <p>
+            An e-commerce website is an online platform that facilitates the
+            buying and selling of products or services over the internet. It
+            serves as a virtual marketplace where businesses and individuals con
+            showcase their products, interact with customers, and conduct
+            transactions without the need for a physical presence. E-commerce
+            websites have gained immense popularity due to their convenience,
+            accessibility, and the global reach they offer
+          </p>
+          <p>
+            E-commerce websites typically display products or services along
+            with defalled descriptions, images, prices, and any available
+            variations (e.g., sizes, colors). Each product usually has its own
+            dedicated page with relevant information
+          </p>
         </div>
       </div>
       {/* product related products */}
-      <RelatedProducts category={productData.category} subCategory={productData.subCategory}/>
+      <RelatedProducts
+        category={productData.category}
+        subCategory={productData.subCategory}
+      />
     </div>
   ) : (
     <div className="opacity-0"></div>
