@@ -6,7 +6,7 @@ import Title from "../Components/Title";
 import ProductItem from "../Components/ProductItem";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [filterProduct, setFilterProduct] = useState([]);
   const [sortOption, setSortOption] = useState('relevant');
@@ -19,6 +19,13 @@ const Collection = () => {
       filteredProducts = [...products]; // Use spread operator to create a new array
     } else {
       filteredProducts = products.filter(product => product.category.toUpperCase() === selectedCategory);
+    }
+
+    // Filter products based on search term if search is enabled
+    if (showSearch && search) {
+      filteredProducts = filteredProducts.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
     }
 
     // Sort products based on the selected option
@@ -35,7 +42,7 @@ const Collection = () => {
     }
 
     setFilterProduct(filteredProducts);
-  }, [products, selectedCategory, sortOption]);
+  }, [products, selectedCategory, sortOption, search, showSearch]);
 
   // Function to handle category selection
   const handleCategoryClick = (category) => {
@@ -50,7 +57,7 @@ const Collection = () => {
   return (
     <div>
       <div className="flex justify-center">
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8 place-items-center">
+        <div className="grid grid-cols-4 gap-8 place-items-center">
           <CategoryCard
             imageSrc={assets.frame}
             label="ALL"
