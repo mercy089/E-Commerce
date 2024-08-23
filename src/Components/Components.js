@@ -5,6 +5,9 @@ import LatestCollection from "./LatestCollection"
 import Banner from "./Banner"
 import Title from "./Title"
 import ProductItem from "./ProductItem"
+import BestSeller from "./BestSeller"
+import OurPolicy from "./OurPolicy"
+import NewsLetterBox from "./NewsLetterBox"
 
 
 
@@ -15,4 +18,4 @@ import ProductItem from "./ProductItem"
 
 
 
-export {Navbar, Footer, Hero, LatestCollection,Banner,Title,ProductItem}
+export {Navbar,Footer,Hero,LatestCollection,Banner,Title,ProductItem,BestSeller,OurPolicy,NewsLetterBox}
