@@ -3,7 +3,7 @@ import React from 'react'
 
 const Banner = ({ title, subtitle, ctaText, heroImage }) => {
   return (
-    <div className='flex flex-wrap border border-gray-400'>
+    <div className='flex flex-wrap border border-gray-400 '>
       {/* Hero left side */}
       <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0'>
         <div className='text-[#414141]'>
