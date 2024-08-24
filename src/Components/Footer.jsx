@@ -9,7 +9,7 @@ const Footer = () => {
           <img
             src={assets.logo}
             alt=""
-            className=" w-44 sm:w-56 md:w-64 lg:w-72 mb-5"
+            className=" w-44 mb-5"
           />
           <p className="w-full md:w-2/3 text-gray-600">
             Where Fashion Meets Fusion: Discover a world where cutting-edge

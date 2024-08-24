@@ -8,7 +8,7 @@ const CategoryCard = ({ imageSrc, label, onClick }) => {
       onClick={onClick}
     >
       <img src={imageSrc} alt={label} className="w-24" />
-      <p className="absolute text-xs sm:text-lg pt-4 sm:pt-6 flex justify-center items-center text-center">
+      <p className="absolute text-sm sm:text-base pt-8 sm:pt-7 flex justify-center items-center text-center">
         {label}
       </p>
     </div>
