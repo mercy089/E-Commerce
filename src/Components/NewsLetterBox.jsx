@@ -9,7 +9,7 @@ const NewsLetterBox = () => {
       <p className="text-2xl font-medium text-gray-800">
         Subscribe Now & Get 20% OFF
       </p>
-      <p className="text-gray-400 mt-3">
+      <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-400">
         Join our community of curious minds. Subscribe now to receive exclusive
         insights, inspiration, and special offers.
       </p>
@@ -20,7 +20,7 @@ const NewsLetterBox = () => {
         <input
           type="email"
           placeholder="Enter your email"
-          className="w-full sm:flex-1 outline-none rounded-full"
+          className="w-full sm:flex-1 outline-none rounded-full text-sm sm:text-base"
           required
         />
         <button
