@@ -18,7 +18,7 @@ const About = () => {
         <div className="flex flex-col justify-center gap-6 md:w-2/4 text-gray-600">
           <Title
             text1={"FASHION"}
-            text2={"-FUSION:"}
+            text2={"FUSION:"}
             text3={"Where Style Meets Innovation"}
           />
           <p>

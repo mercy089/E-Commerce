@@ -1,6 +1,6 @@
 import React from "react";
 import { assets } from "../assets/frontend_assets/assets";
-import {Banner} from "./Components";
+import { Banner } from "./Components";
 
 const Hero = () => {
   return (

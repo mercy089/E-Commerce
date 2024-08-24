@@ -14,11 +14,10 @@ const Product = () => {
   const [isAdded, setIsAdded] = useState(false);
 
   const handleButtonClick = () => {
-     if(!size){
-      toast.error('Select Product Size');
-      return
+    if (!size) {
+      toast.error("Select Product Size");
+      return;
     }
-
 
     setIsAdded(!isAdded);
     addToCart(productData._id, size, isAdded);

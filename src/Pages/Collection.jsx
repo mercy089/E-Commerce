@@ -7,33 +7,35 @@ import ProductItem from "../Components/ProductItem";
 
 const Collection = () => {
   const { products, search, showSearch } = useContext(ShopContext);
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [filterProduct, setFilterProduct] = useState([]);
-  const [sortOption, setSortOption] = useState('relevant');
+  const [sortOption, setSortOption] = useState("relevant");
 
   useEffect(() => {
     let filteredProducts;
 
     // Filter products based on selected category
-    if (selectedCategory === 'ALL') {
+    if (selectedCategory === "ALL") {
       filteredProducts = [...products]; // Use spread operator to create a new array
     } else {
-      filteredProducts = products.filter(product => product.category.toUpperCase() === selectedCategory);
+      filteredProducts = products.filter(
+        (product) => product.category.toUpperCase() === selectedCategory
+      );
     }
 
     // Filter products based on search term if search is enabled
     if (showSearch && search) {
-      filteredProducts = filteredProducts.filter(item => 
+      filteredProducts = filteredProducts.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
     // Sort products based on the selected option
     switch (sortOption) {
-      case 'low-high':
+      case "low-high":
         filteredProducts.sort((a, b) => a.price - b.price);
         break;
-      case 'high-low':
+      case "high-low":
         filteredProducts.sort((a, b) => b.price - a.price);
         break;
       default:
@@ -84,7 +86,10 @@ const Collection = () => {
       <div className="flex-1">
         <div className="flex justify-between text-base sm:text-2xl mb-4">
           <Title text1={selectedCategory} text2="COLLECTIONS" />
-          <select className="border-2 border-gray-300 text-sm px-2" onChange={handleSortChange}>
+          <select
+            className="border-2 border-gray-300 text-sm px-2"
+            onChange={handleSortChange}
+          >
             <option value="relevant">Sort By: Relevant</option>
             <option value="low-high">Sort By: Low to High</option>
             <option value="high-low">Sort By: High to Low</option>
