@@ -11,8 +11,8 @@ const ShopContextProvider = (props) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItem, setCartItem] = useState({});
-  const navigate = useNavigate()
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state
+  const navigate = useNavigate();
 
   const addToCart = (itemId, size, remove = false) => {
     let cartData = JSON.parse(JSON.stringify(cartItem));
@@ -85,6 +85,15 @@ const ShopContextProvider = (props) => {
     return totalAmount;
   };
 
+  const login = () => {
+    setIsLoggedIn(true);
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    navigate('/login'); // Navigate to login page after logout
+  };
+
   const value = {
     products,
     currency,
@@ -98,7 +107,10 @@ const ShopContextProvider = (props) => {
     getCartCount,
     updateQuantity,
     getCartAmount,
-    navigate
+    isLoggedIn,
+    login,
+    logout,
+    navigate,
   };
 
   return (

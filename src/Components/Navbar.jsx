@@ -5,7 +5,7 @@ import { ShopContext } from "../Context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const { setShowSearch,getCartCount,isLoggedIn } = useContext(ShopContext);
 
   // Get the current location
   const location = useLocation();
@@ -57,19 +57,23 @@ const Navbar = () => {
 
         {/* Profile Icon with Dropdown Menu */}
         <div className="group relative">
-          <img
-            src={assets.profile_icon}
-            className="w-5 cursor-pointer"
-            alt="Profile Icon"
-          />
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-              <p className="cursor-pointer hover:text-black">Profile</p>
-              <p className="cursor-pointer hover:text-black">Orders</p>
-              <p className="cursor-pointer hover:text-black">Logout</p>
-            </div>
+      <Link to={isLoggedIn ? '/profile' : '/login'}>
+        <img
+          src={assets.profile_icon}
+          className="w-5 cursor-pointer"
+          alt="Profile Icon"
+        />
+      </Link>
+      {isLoggedIn && (
+        <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+          <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+            <Link to="/profile" className="cursor-pointer hover:text-black">Profile</Link>
+            <Link to="/orders" className="cursor-pointer hover:text-black">Orders</Link>
+            <Link to="/logout" className="cursor-pointer hover:text-black">Logout</Link>
           </div>
         </div>
+      )}
+    </div>
 
         {/* Cart Icon with Item Count Badge */}
         <NavLink to="/cart" className="relative">
