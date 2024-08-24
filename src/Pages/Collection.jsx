@@ -93,7 +93,7 @@ const Collection = () => {
       <hr className="my-2 border-t border-gray-700 w-full" />
       <div className="flex-1">
         <div className="flex justify-between text-base sm:text-3xl mb-4">
-          <Title text1={selectedCategory} text2="COLLECTION" />
+          <Title text1={selectedCategory+"'s"} text2="COLLECTION" />
           <select
             className="border-2 border-gray-300 text-sm px-2"
             onChange={handleSortChange}

@@ -11,7 +11,7 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <div className="flex items-center justify-between py-5 font-medium">
+    <div className="flex items-center justify-between px-4 py-5 font-medium bg-white shadow-xl">
       {/* Logo Section */}
       <Link to="/">
         <img src={assets.logo} className="w-44" alt="Logo" />{" "}
@@ -44,13 +44,15 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         {/* Search Icon */}
         {/* Only show the search icon when on the /collection route */}
-        {location.pathname === "/collection" && (
+        {location.pathname === "/collection" ? (
           <img
             onClick={() => setShowSearch(true)}
             src={assets.search_icon}
             className="w-5 cursor-pointer"
             alt="Search Icon"
           />
+        ) : (
+          <div className="w-5 h-5 bg-transparent border border-transparent" />
         )}
 
         {/* Profile Icon with Dropdown Menu */}
