@@ -1,42 +1,40 @@
-import React from "react";
-import { assets } from "../assets/frontend_assets/assets";
+import React, { useState, useEffect } from "react";
+import { banners } from "../assets/frontend_assets/banner";
 import { Banner } from "./Components";
 
 const Hero = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  // useEffect hook to handle automatic carousel
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex === banners.length - 1 ? 0 : prevIndex + 1));
+    }, 3000); // Change banner every 3 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, [banners.length]);
+
   return (
-    <div className="">
-      <Banner
-        title="Latest Arrivals"
-        subtitle="OUR BESTSELLERS"
-        ctaText="SHOP NOW"
-        heroImage={assets.hero_img}
-      />
-      {/* <Banner
-        title="New Collection"
-        subtitle="SUMMER 2024"
-        ctaText="EXPLORE"
-        heroImage={assets.hero_img}
-      />
-      <Banner
-        title="Exclusive Deals"
-        subtitle="LIMITED TIME OFFER"
-        ctaText="GRAB NOW"
-        heroImage={assets.hero_img}
-      />
-      <Banner
-        title="Trending Now"
-        subtitle="HOT PICKS"
-        ctaText="CHECK IT OUT"
-        heroImage={assets.hero_img}
-      />
-      <Banner
-        title="Winter Essentials"
-        subtitle="WARM AND COZY"
-        ctaText="DISCOVER"
-        heroImage={assets.hero_img}
-      /> */}
+    <div className="relative w-full overflow-hidden">
+      <div
+        className="flex transition-transform duration-500"
+        style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+      >
+        {banners.map((banner, index) => (
+          <div className="w-full flex-shrink-0" key={index}>
+            <Banner
+              title={banner.title}
+              subtitle={banner.subtitle}
+              ctaText={banner.ctaText}
+              heroImage={banner.heroImage}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default Hero;
+
+
