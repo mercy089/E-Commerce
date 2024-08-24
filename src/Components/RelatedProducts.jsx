@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
-import Title from "./Title";
-import ProductItem from "./ProductItem";
+import{Title,ProductItem} from "../Components/Components";
 
 const RelatedProducts = ({ category, subCategory }) => {
   const { products } = useContext(ShopContext);
