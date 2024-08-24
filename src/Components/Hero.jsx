@@ -12,7 +12,7 @@ const Hero = () => {
     }, 3000); // Change banner every 3 seconds
 
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, [banners.length]);
+  }, []);
 
   return (
     <div className="relative w-full overflow-hidden">
