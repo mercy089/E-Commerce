@@ -65,7 +65,7 @@ const Collection = () => {
   };
 
   return (
-    <div>
+    <div className="text-2xl text-center pt-8 border-t">
       <div className="flex justify-center">
         <div className="grid grid-cols-4 gap-8 place-items-center">
           <CategoryCard

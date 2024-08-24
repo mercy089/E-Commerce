@@ -10,7 +10,7 @@ import {
 
 const Home = () => {
   return (
-    <div>
+    <div className="text-2xl text-center pt-8 border-t">
       <Hero />
       <LatestCollection />
       <OurPolicy />
