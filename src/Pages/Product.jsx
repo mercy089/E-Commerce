@@ -2,16 +2,37 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
-import {RelatedProducts} from "../Components/Components";
+import { RelatedProducts } from "../Components/Components";
 import { toast } from "react-toastify";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
-  const [productData, setProductData] = useState(false);
+  const { products, currency, addToCart, cartItem } = useContext(ShopContext);
+  const [productData, setProductData] = useState(null);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
   const [isAdded, setIsAdded] = useState(false);
+
+  useEffect(() => {
+    // Fetch product data based on the productId from the URL
+    const product = products.find((item) => item._id === productId);
+    if (product) {
+      setProductData(product);
+      setImage(product.image[0]);
+    }
+  }, [productId, products]);
+
+  useEffect(() => {
+    // Check if the product and size are in the cart to update the "isAdded" state
+    if (productData && size) {
+      const isInCart = cartItem[productData._id]?.[size] > 0;
+      setIsAdded(isInCart);
+    }
+  }, [productData, size, cartItem]);
+
+  const handleSizeSelection = (selectedSize) => {
+    setSize(selectedSize);
+  };
 
   const handleButtonClick = () => {
     if (!size) {
@@ -19,23 +40,16 @@ const Product = () => {
       return;
     }
 
-    setIsAdded(!isAdded);
-    addToCart(productData._id, size, isAdded);
+    if (isAdded) {
+      // Remove from cart
+      addToCart(productData._id, size, true);
+      setIsAdded(false);
+    } else {
+      // Add to cart
+      addToCart(productData._id, size);
+      setIsAdded(true);
+    }
   };
-
-  const fetchProductData = async () => {
-    products.map((item) => {
-      if (item._id === productId) {
-        setProductData(item);
-        setImage(item.image[0]);
-        return null;
-      }
-    });
-  };
-
-  useEffect(() => {
-    fetchProductData();
-  }, [productId, products]);
 
   return productData ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
@@ -62,11 +76,11 @@ const Product = () => {
         <div className="flex-1">
           <h1 className="font-medium text-2xl mt-2">{productData.name}</h1>
           <div className="flex items-center gap-1 mt-2">
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_dull_icon} alt="" className="w-3 5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_dull_icon} alt="" className="w-3.5" />
             <p className="pl-2">(122)</p>
           </div>
           <p className="mt-5 text-3xl font-medium">
@@ -81,7 +95,7 @@ const Product = () => {
             <div className="flex gap-2">
               {productData.sizes.map((item, index) => (
                 <button
-                  onClick={() => setSize(item)}
+                  onClick={() => handleSizeSelection(item)}
                   key={index}
                   className={`border py-2 px-4 bg-gray-100 rounded-xl ${
                     item === size ? "border-black" : ""
@@ -119,17 +133,17 @@ const Product = () => {
           <p>
             An e-commerce website is an online platform that facilitates the
             buying and selling of products or services over the internet. It
-            serves as a virtual marketplace where businesses and individuals con
+            serves as a virtual marketplace where businesses and individuals can
             showcase their products, interact with customers, and conduct
             transactions without the need for a physical presence. E-commerce
             websites have gained immense popularity due to their convenience,
-            accessibility, and the global reach they offer
+            accessibility, and the global reach they offer.
           </p>
           <p>
             E-commerce websites typically display products or services along
-            with defalled descriptions, images, prices, and any available
+            with detailed descriptions, images, prices, and any available
             variations (e.g., sizes, colors). Each product usually has its own
-            dedicated page with relevant information
+            dedicated page with relevant information.
           </p>
         </div>
       </div>

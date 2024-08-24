@@ -11,6 +11,7 @@ import ProductItem from "./ProductItem";
 import RelatedProducts from "./RelatedProducts";
 import SearchBar from "./SearchBar";
 import Title from "./Title";
+import CartTotal  from "./CartTotal";
 
 export {
   Navbar,
@@ -26,5 +27,6 @@ export {
   CategoryCard,
   SearchBar,
   RelatedProducts,
+  CartTotal,
   // Add more components as needed
 };

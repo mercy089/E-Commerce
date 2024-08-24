@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { products } from "../assets/frontend_assets/assets";
+import { useNavigate } from "react-router-dom";
 
 export const ShopContext = createContext();
 
@@ -10,43 +11,37 @@ const ShopContextProvider = (props) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItem, setCartItem] = useState({});
+  const navigate = useNavigate()
+
 
   const addToCart = (itemId, size, remove = false) => {
-    let cartData = structuredClone(cartItem);
+    let cartData = JSON.parse(JSON.stringify(cartItem));
 
-    // Check if the item is already in the cart
     if (cartData[itemId]) {
       if (cartData[itemId][size]) {
         if (remove) {
-          delete cartData[itemId][size]; // Remove the size from the cart
-
-          // If the item has no more sizes in the cart, remove the item entirely
+          delete cartData[itemId][size];
           if (Object.keys(cartData[itemId]).length === 0) {
             delete cartData[itemId];
           }
         } else {
-          cartData[itemId][size] += 1; // Add another item of the same size
+          cartData[itemId][size] += 1;
         }
       } else {
-        cartData[itemId][size] = 1; // Add a different size of the same item
+        cartData[itemId][size] = 1;
       }
     } else {
-      // If the item is not in the cart, add it
       cartData[itemId] = { [size]: 1 };
     }
-
     setCartItem(cartData);
   };
 
   const getCartCount = () => {
     let count = 0;
 
-    // Loop through each item in the cart
     for (const itemId in cartItem) {
-      // Loop through each size for the current item
       for (const size in cartItem[itemId]) {
         try {
-          // Add the count of items of the current size to the total count
           count += cartItem[itemId][size];
         } catch (error) {
           console.error(`Error accessing cart item size: ${error.message}`);
@@ -57,9 +52,39 @@ const ShopContextProvider = (props) => {
     return count;
   };
 
-  useEffect(() => {
-    console.log(cartItem);
-  }, [cartItem]);
+  const updateQuantity = (itemId, size, quantity) => {
+    let cartData = JSON.parse(JSON.stringify(cartItem));
+
+    if (quantity === 0) {
+      delete cartData[itemId][size];
+      if (Object.keys(cartData[itemId]).length === 0) {
+        delete cartData[itemId];
+      }
+    } else {
+      cartData[itemId][size] = quantity;
+    }
+
+    setCartItem(cartData);
+  };
+
+  const getCartAmount = async () => {
+    let totalAmount = 0;
+
+    for (const items in cartItem) {
+      let itemInfo = products.find((product) => product._id === items);
+      for (const item in cartItem[items]) {
+        try {
+          if (cartItem[items][item] > 0) {
+            totalAmount += itemInfo.price * cartItem[items][item];
+          }
+        } catch (error) {
+          console.error(`Error calculating cart amount: ${error.message}`);
+        }
+      }
+    }
+    return totalAmount;
+  };
+
   const value = {
     products,
     currency,
@@ -71,6 +96,9 @@ const ShopContextProvider = (props) => {
     cartItem,
     addToCart,
     getCartCount,
+    updateQuantity,
+    getCartAmount,
+    navigate
   };
 
   return (
