@@ -5,7 +5,7 @@ import { Title } from '../Components/Components';
 const Orders = () => {
   const { cartItem, products, currency } = useContext(ShopContext);
 
-  // Get the list of items added to the cart
+  // Get the list of item IDs in the cart
   const cartItems = Object.keys(cartItem);
 
   return (
@@ -18,12 +18,21 @@ const Orders = () => {
       ) : (
         cartItems.map((itemId) => {
           const product = products.find((product) => product._id === itemId);
+          if (!product) return null; // Ensure the product exists
+
           const sizes = Object.keys(cartItem[itemId]);
 
           return sizes.map((size) => (
-            <div key={`${itemId}-${size}`} className='py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+            <div
+              key={`${itemId}-${size}`}
+              className='py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4'
+            >
               <div className='flex items-start gap-6 text-sm'>
-                <img src={product.image[0]} alt={product.name} className='w-16 sm:w-20' />
+                <img
+                  src={product.image[0]}
+                  alt={product.name}
+                  className='w-16 sm:w-20'
+                />
                 <div>
                   <p className='font-medium'>{product.name}</p>
                   <p>Size: {size}</p>
@@ -31,11 +40,11 @@ const Orders = () => {
                   <p>{currency}{product.price.toLocaleString()}</p>
                 </div>
               </div>
-              <div className='md:w1/2 flex justify-between'>
-              <div className='flex items-center gap-2'>
-                <p className='min-w-2 h-2 rounded-full bg-green-500'></p>
-                <p className='text-sm md:text-base'>Ready to ship</p>
-              </div>
+              <div className='md:w-1/2 flex justify-between'>
+                <div className='flex items-center gap-2'>
+                  <p className='min-w-2 h-2 rounded-full bg-green-500' aria-label="Order status indicator"></p>
+                  <p className='text-sm md:text-base'>Ready to ship</p>
+                </div>
               </div>
               <div className='text-right md:text-left'>
                 <p className='text-gray-500'>
@@ -43,7 +52,12 @@ const Orders = () => {
                 </p>
               </div>
               <div>
-                <button className='border px-4 py-2 text-sm font-medium'>Track Order</button>
+                <button 
+                  className='border px-4 py-2 text-sm font-medium hover:bg-gray-100 transition-colors'
+                  aria-label="Track Order"
+                >
+                  Track Order
+                </button>
               </div>
             </div>
           ));

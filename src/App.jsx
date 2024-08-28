@@ -15,12 +15,20 @@ import {
 } from "./Pages/Pages";
 import { Navbar, Footer } from "./Components/Components";
 import SearchBar from "./Components/SearchBar";
+
 const App = () => {
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7px] lg:px-[9vw]">
+      {/* Global Toast Notifications */}
       <ToastContainer />
+      
+      {/* Navigation Bar */}
       <Navbar />
+      
+      {/* Search Bar */}
       <SearchBar />
+      
+      {/* Routing Setup */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -32,6 +40,8 @@ const App = () => {
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/product/:productId" element={<Product />} />
       </Routes>
+      
+      {/* Footer */}
       <Footer />
     </div>
   );

@@ -4,15 +4,16 @@ import { ShopContext } from "../Context/ShopContext";
 import { CategoryCard, Title, ProductItem } from "../Components/Components";
 
 const Collection = () => {
+  // Extract necessary values from ShopContext
   const { products, search, showSearch } = useContext(ShopContext);
   const [selectedCategory, setSelectedCategory] = useState("ALL");
-  // const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState({});
   const [sortOption, setSortOption] = useState("relevant");
 
+  // Effect to filter and sort products whenever relevant dependencies change
   useEffect(() => {
     let filteredProducts;
-  
+
     // Filter products based on selected category
     if (selectedCategory === "ALL") {
       filteredProducts = [...products];
@@ -21,14 +22,14 @@ const Collection = () => {
         (product) => product.category.toUpperCase() === selectedCategory
       );
     }
-  
-    // Filter products based on search term if search is enabled
+
+    // Further filter products based on search term if search is enabled
     if (showSearch && search) {
       filteredProducts = filteredProducts.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
-  
+
     // Group products by subcategory
     const groupedProducts = filteredProducts.reduce((acc, product) => {
       const subCategory = product.subCategory || "Others";
@@ -38,7 +39,7 @@ const Collection = () => {
       acc[subCategory].push(product);
       return acc;
     }, {});
-  
+
     // Sort products within each subcategory based on the selected option
     Object.keys(groupedProducts).forEach((subCategory) => {
       switch (sortOption) {
@@ -52,10 +53,11 @@ const Collection = () => {
           break;
       }
     });
-  
+
+    // Update state with sorted and grouped products
     setSortedProducts(groupedProducts);
   }, [products, selectedCategory, sortOption, search, showSearch]);
-  
+
   // Function to handle category selection
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -68,6 +70,7 @@ const Collection = () => {
 
   return (
     <div className="text-2xl text-center pt-8 border-t">
+      {/* Category Selection */}
       <div className="flex justify-center">
         <div className="grid grid-cols-4 gap-8 place-items-center">
           <CategoryCard
@@ -93,6 +96,8 @@ const Collection = () => {
         </div>
       </div>
       <hr className="my-2 border-t border-gray-700 w-full" />
+      
+      {/* Sorting and Title */}
       <div className="flex-1">
         <div className="flex justify-between text-base sm:text-4xl mb-4">
           <Title text1={selectedCategory+"'s"} text2="COLLECTION" />
@@ -105,11 +110,14 @@ const Collection = () => {
             <option value="high-low">Sort By: High to Low</option>
           </select>
         </div>
-        {/* Map Products by Subcategory */}
+        
+        {/* Display Products by Subcategory */}
         {Object.keys(sortedProducts).length > 0 ? (
           Object.keys(sortedProducts).map((subCategory, index) => (
             <div key={index}>
-              <h3 className="text-base sm:text-3xl font-medium mb-2 text-left underline"><Title text3={subCategory}/></h3>
+              <h3 className="text-base sm:text-3xl font-medium mb-2 text-left underline">
+                <Title text3={subCategory}/>
+              </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6 mb-6">
                 {sortedProducts[subCategory].map((item, idx) => (
                   <ProductItem

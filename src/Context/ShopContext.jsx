@@ -3,19 +3,21 @@ import { createContext, useState } from "react";
 import { products } from "../assets/frontend_assets/assets";
 import { useNavigate } from "react-router-dom";
 
+// Create a Context for the shop
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-  const currency = "₹";
-  const delivery_fee = 50;
-  const [search, setSearch] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
-  const [cartItem, setCartItem] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state
-  const navigate = useNavigate();
+  const currency = "₹"; // Default currency symbol
+  const delivery_fee = 50; // Default delivery fee
+  const [search, setSearch] = useState(""); // Search input state
+  const [showSearch, setShowSearch] = useState(false); // Search visibility state
+  const [cartItem, setCartItem] = useState({}); // Cart items state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // User login state
+  const navigate = useNavigate(); // Hook to navigate programmatically
 
+  // Function to add or remove items from the cart
   const addToCart = (itemId, size, remove = false) => {
-    let cartData = JSON.parse(JSON.stringify(cartItem));
+    let cartData = JSON.parse(JSON.stringify(cartItem)); // Deep copy of cart items
 
     if (cartData[itemId]) {
       if (cartData[itemId][size]) {
@@ -33,9 +35,10 @@ const ShopContextProvider = (props) => {
     } else {
       cartData[itemId] = { [size]: 1 };
     }
-    setCartItem(cartData);
+    setCartItem(cartData); // Update the cart item state
   };
 
+  // Function to get the total number of items in the cart
   const getCartCount = () => {
     let count = 0;
 
@@ -52,8 +55,9 @@ const ShopContextProvider = (props) => {
     return count;
   };
 
+  // Function to update the quantity of a specific item in the cart
   const updateQuantity = (itemId, size, quantity) => {
-    let cartData = JSON.parse(JSON.stringify(cartItem));
+    let cartData = JSON.parse(JSON.stringify(cartItem)); // Deep copy of cart items
 
     if (quantity === 0) {
       delete cartData[itemId][size];
@@ -64,9 +68,10 @@ const ShopContextProvider = (props) => {
       cartData[itemId][size] = quantity;
     }
 
-    setCartItem(cartData);
+    setCartItem(cartData); // Update the cart item state
   };
 
+  // Function to calculate the total amount of items in the cart
   const getCartAmount = async () => {
     let totalAmount = 0;
 
@@ -85,15 +90,18 @@ const ShopContextProvider = (props) => {
     return totalAmount;
   };
 
+  // Function to log in the user
   const login = () => {
     setIsLoggedIn(true);
   };
 
+  // Function to log out the user
   const logout = () => {
     setIsLoggedIn(false);
     navigate('/login'); // Navigate to login page after logout
   };
 
+  // Context value that will be provided to other components
   const value = {
     products,
     currency,

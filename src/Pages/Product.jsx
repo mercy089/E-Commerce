@@ -19,6 +19,8 @@ const Product = () => {
     if (product) {
       setProductData(product);
       setImage(product.image[0]);
+    } else {
+      toast.error("Product not found");
     }
   }, [productId, products]);
 
@@ -44,18 +46,20 @@ const Product = () => {
       // Remove from cart
       addToCart(productData._id, size, true);
       setIsAdded(false);
+      toast.info("Removed from cart");
     } else {
       // Add to cart
       addToCart(productData._id, size);
       setIsAdded(true);
+      toast.success("Added to cart");
     }
   };
 
   return productData ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
-      {/* product data */}
+      {/* Product Data Section */}
       <div className="flex gap-12 flex-col sm:flex-row">
-        {/* product images */}
+        {/* Product Images */}
         <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal w-full sm:w-[18.7%]">
             {productData.image.map((item, index) => (
@@ -63,24 +67,27 @@ const Product = () => {
                 onClick={() => setImage(item)}
                 src={item}
                 key={index}
-                alt=""
+                alt={`Product image ${index + 1}`}
                 className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer"
               />
             ))}
           </div>
           <div className="w-full sm:w-[80%]">
-            <img src={image} alt="" className="w-full h-auto" />
+            <img src={image} alt="Selected product" className="w-full h-auto" />
           </div>
         </div>
-        {/* product details */}
+        {/* Product Details */}
         <div className="flex-1">
           <h1 className="font-medium text-2xl mt-2">{productData.name}</h1>
           <div className="flex items-center gap-1 mt-2">
-            <img src={assets.star_icon} alt="" className="w-3.5" />
-            <img src={assets.star_icon} alt="" className="w-3.5" />
-            <img src={assets.star_icon} alt="" className="w-3.5" />
-            <img src={assets.star_icon} alt="" className="w-3.5" />
-            <img src={assets.star_dull_icon} alt="" className="w-3.5" />
+            {Array.from({ length: 5 }).map((_, index) => (
+              <img
+                key={index}
+                src={index < 4 ? assets.star_icon : assets.star_dull_icon}
+                alt="Star rating"
+                className="w-3.5"
+              />
+            ))}
             <p className="pl-2">(122)</p>
           </div>
           <p className="mt-5 text-3xl font-medium">
@@ -100,6 +107,7 @@ const Product = () => {
                   className={`border py-2 px-4 bg-gray-100 rounded-xl ${
                     item === size ? "border-black" : ""
                   }`}
+                  aria-pressed={item === size}
                 >
                   {item}
                 </button>
@@ -123,7 +131,7 @@ const Product = () => {
           </div>
         </div>
       </div>
-      {/* product reviews */}
+      {/* Product Reviews Section */}
       <div className="mt-20">
         <div className="flex">
           <b className="border px-5 py-3 text-sm">Description</b>
@@ -147,7 +155,7 @@ const Product = () => {
           </p>
         </div>
       </div>
-      {/* product related products */}
+      {/* Related Products Section */}
       <RelatedProducts
         category={productData.category}
         subCategory={productData.subCategory}

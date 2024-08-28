@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Prata&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Aldrich&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +9,13 @@ a.active hr {
 }
 
 * {
-  font-family: OutFit;
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.OutFit {
+  font-family: OutFit, sans-serif; /* Ensure OutFit is imported correctly */
 }
 
 .prata-regular {
@@ -18,12 +25,14 @@ a.active hr {
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  /* Optional: Customize instead of hiding completely */
+  width: 8px;
 }
 
 @media (max-width: 640px) {
   a.active {
     background-color: black;
     color: white;
+    /* Consider adding padding or border to enhance the look */
   }
 }

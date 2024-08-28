@@ -4,12 +4,15 @@ import { CartTotal, Title } from "../Components/Components";
 import { assets } from "../assets/frontend_assets/assets";
 
 const Cart = () => {
+  // Extract necessary values and functions from ShopContext
   const { products, cartItem, currency, updateQuantity, navigate } =
     useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
+  // Effect to update cartData when cartItem changes
   useEffect(() => {
     const tempData = [];
+    // Iterate over cartItem to build a list of cart items with their details
     for (const itemId in cartItem) {
       for (const size in cartItem[itemId]) {
         if (cartItem[itemId][size] > 0) {
@@ -21,14 +24,17 @@ const Cart = () => {
         }
       }
     }
-    setCartData(tempData);
+    setCartData(tempData); // Update state with new cart data
   }, [cartItem]);
 
   return (
     <div className="border-t pt-14">
+      {/* Cart Title */}
       <div className="text-2xl mb-3">
         <Title text1={"YOUR"} text2={"CART"} text3={"ITEMS"} />
       </div>
+
+      {/* Cart Items List */}
       <div>
         {cartData.length > 0 ? (
           cartData.map((item, index) => {
@@ -40,6 +46,7 @@ const Cart = () => {
                 key={index}
                 className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
               >
+                {/* Product Image and Details */}
                 <div className="flex items-start gap-6">
                   <img
                     src={productData.image[0]}
@@ -61,6 +68,8 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
+                
+                {/* Quantity Input */}
                 <input
                   className="border max-w-5 sm:max-w-10 px-1 sm:px-2 py-1"
                   type="number"
@@ -74,6 +83,8 @@ const Cart = () => {
                     )
                   }
                 />
+                
+                {/* Remove Item Button */}
                 <img
                   onClick={() => updateQuantity(item._id, item.size, 0)}
                   src={assets.bin_icon}
@@ -87,17 +98,21 @@ const Cart = () => {
           <p className="text-center text-gray-500">Your cart is empty.</p>
         )}
       </div>
+      
+      {/* Cart Total and Checkout Button */}
       <div className="flex justify-end my-20">
         <div className="w-full sm:w-[450px]">
           {cartData.length > 0 && <CartTotal />}
-          {cartData.length > 0 && <div className="w-full text-end">
-            <button
-              onClick={() => navigate("/place-order")}
-              className="bg-black text-white text-sm my-8 px-8 py-3"
-            >
-              PROCEED TO CHECKOUT
-            </button>
-          </div>}
+          {cartData.length > 0 && (
+            <div className="w-full text-end">
+              <button
+                onClick={() => navigate("/place-order")}
+                className="bg-black text-white text-sm my-8 px-8 py-3"
+              >
+                PROCEED TO CHECKOUT
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

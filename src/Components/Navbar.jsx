@@ -4,36 +4,40 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 
 const Navbar = () => {
-  const [visible, setVisible] = useState(false);
-  const { setShowSearch,getCartCount,isLoggedIn } = useContext(ShopContext);
+  const [visible, setVisible] = useState(false); // State to manage visibility of the sidebar menu on small screens
+  const { setShowSearch, getCartCount, isLoggedIn } = useContext(ShopContext); // Context values for search, cart count, and login status
 
-  // Get the current location
+  // Get the current route location
   const location = useLocation();
 
   return (
     <div className="flex items-center justify-between px-4 py-5 font-medium bg-white shadow-xl">
       {/* Logo Section */}
       <Link to="/">
-        <img src={assets.logo} className="w-44" alt="Logo" />{" "}
+        <img src={assets.logo} className="w-44" alt="Logo" />
       </Link>
 
       {/* Desktop Navigation Links */}
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+        {/* Home Link */}
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>HOME</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
+        {/* Collections Link */}
         <NavLink to="/collection" className="flex flex-col items-center gap-1">
           <p>COLLECTIONS</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
+        {/* About Link */}
         <NavLink to="/about" className="flex flex-col items-center gap-1">
           <p>ABOUT</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
+        {/* Contact Link */}
         <NavLink to="/contact" className="flex flex-col items-center gap-1">
           <p>CONTACT</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
@@ -43,7 +47,7 @@ const Navbar = () => {
       {/* Icons Section */}
       <div className="flex items-center gap-6">
         {/* Search Icon */}
-        {/* Only show the search icon when on the /collection route */}
+        {/* Display search icon only on the /collection route */}
         {location.pathname === "/collection" ? (
           <img
             onClick={() => setShowSearch(true)}
@@ -57,29 +61,30 @@ const Navbar = () => {
 
         {/* Profile Icon with Dropdown Menu */}
         <div className="group relative">
-      <Link to={isLoggedIn ? '/profile' : '/login'}>
-        <img
-          src={assets.profile_icon}
-          className="w-5 cursor-pointer"
-          alt="Profile Icon"
-        />
-      </Link>
-      {isLoggedIn && (
-        <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-          <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-            <Link to="/profile" className="cursor-pointer hover:text-black">Profile</Link>
-            <Link to="/orders" className="cursor-pointer hover:text-black">Orders</Link>
-            <Link to="/logout" className="cursor-pointer hover:text-black">Logout</Link>
-          </div>
+          <Link to={isLoggedIn ? '/profile' : '/login'}>
+            <img
+              src={assets.profile_icon}
+              className="w-5 cursor-pointer"
+              alt="Profile Icon"
+            />
+          </Link>
+          {/* Show dropdown menu only when the user is logged in */}
+          {isLoggedIn && (
+            <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+              <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+                <Link to="/profile" className="cursor-pointer hover:text-black">Profile</Link>
+                <Link to="/orders" className="cursor-pointer hover:text-black">Orders</Link>
+                <Link to="/logout" className="cursor-pointer hover:text-black">Logout</Link>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
 
         {/* Cart Icon with Item Count Badge */}
         <NavLink to="/cart" className="relative">
           <img src={assets.cart_icon} className="w-5 h-5" alt="Cart Icon" />
-          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-            {getCartCount()} {/* Call as a function */}
+          <p className="OutFit  absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+            {getCartCount()} {/* Display the number of items in the cart */}
           </p>
         </NavLink>
 
